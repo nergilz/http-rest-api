@@ -48,7 +48,6 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[ws error write msg] %v\n", err)
 	}
 	reader(ws)
-
 }
 
 func setupRoutes() {
