@@ -22,13 +22,13 @@ func reader(conn *websocket.Conn) {
 	for {
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Println("[error]", err)
+			log.Println("[reader error conn read]", err)
 			return
 		}
 		log.Println("[info]", string(p))
 
 		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println("[error]", err)
+			log.Println("[reader error conn write msg]", err)
 			return
 		}
 	}
@@ -40,12 +40,12 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Printf("[error] %v\n", err)
+		log.Printf("[error upgrader] %v\n", err)
 	}
 	log.Println("[info] client connected")
 
 	if err = ws.WriteMessage(1, []byte("HI Client")); err != nil {
-		log.Printf("[error] %v\n", err)
+		log.Printf("[ws error write msg] %v\n", err)
 	}
 	reader(ws)
 
